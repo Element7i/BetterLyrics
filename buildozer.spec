@@ -19,7 +19,7 @@ source.include_exts = py,png,jpg,kv,atlas,txt,md
 version = 1.0.0
 
 # (list) Application requirements
-requirements = python3,kivy,flet
+requirements = python3,kivy,flet,httpx,repath,oauthlib
 
 # (str) Supported orientation (portrait, sensorPortrait, userPortrait, landscape, sensorLandscape, userLandscape)
 orientation = portrait

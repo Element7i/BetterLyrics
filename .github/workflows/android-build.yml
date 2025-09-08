@@ -60,6 +60,14 @@ jobs:
     - name: Install Android SDK components
       run: |
         $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0" "ndk;25.2.9519653"
+        
+    - name: Verify Android SDK installation
+      run: |
+        echo "Android SDK Root: $ANDROID_SDK_ROOT"
+        echo "Available platforms:"
+        ls $ANDROID_SDK_ROOT/platforms/ || echo "No platforms found"
+        echo "Available NDKs:"
+        ls $ANDROID_SDK_ROOT/ndk/ || echo "No NDKs found"
 
     - name: Set up environment variables
       run: |
@@ -75,12 +83,16 @@ jobs:
 
     - name: Initialize buildozer
       run: |
+        echo "Starting buildozer android debug build..."
+        echo "Python version: $(python --version)"
+        echo "Buildozer version: $(buildozer version)"
         buildozer android debug --verbose
       env:
         ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
         ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
         ANDROID_NDK_HOME: ${{ env.ANDROID_SDK_ROOT }}/ndk/25.2.9519653
         NDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}/ndk/25.2.9519653
+      timeout-minutes: 45
 
     - name: List build outputs
       run: |
