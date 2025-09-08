@@ -1,0 +1,76 @@
+# Buildozer files
+.buildozer/
+bin/
+build/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv
+.env
+
+# Android
+*.apk
+*.aab
+local.properties
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+.android/
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Assets (if any large assets are added later)
+# Uncomment if you have large asset files
+# assets/*.mp4
+# assets/*.mov
+# assets/*.wav
+# assets/*.mp3
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json

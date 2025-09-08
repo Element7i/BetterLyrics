@@ -1,0 +1,109 @@
+name: Android Build
+
+# Trigger the workflow on every push to the main branch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  android_build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install buildozer cython
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Set up Java 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Cache Android SDK
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.android/sdk
+          ~/.buildozer
+        key: ${{ runner.os }}-android-sdk-${{ hashFiles('**/buildozer.spec') }}
+        restore-keys: |
+          ${{ runner.os }}-android-sdk-
+
+    - name: Accept Android SDK licenses
+      run: |
+        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+    - name: Install Android SDK components
+      run: |
+        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0" "ndk;25.2.9519653"
+
+    - name: Set up environment variables
+      run: |
+        echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+        echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+        echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/25.2.9519653" >> $GITHUB_ENV
+        echo "NDK_ROOT=$ANDROID_SDK_ROOT/ndk/25.2.9519653" >> $GITHUB_ENV
+
+    - name: Make buildozer directory writable
+      run: |
+        mkdir -p ~/.buildozer
+        chmod -R 777 ~/.buildozer
+
+    - name: Initialize buildozer
+      run: |
+        buildozer android debug --verbose
+      env:
+        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+        ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
+        ANDROID_NDK_HOME: ${{ env.ANDROID_SDK_ROOT }}/ndk/25.2.9519653
+        NDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}/ndk/25.2.9519653
+
+    - name: List build outputs
+      run: |
+        echo "Listing bin directory contents:"
+        ls -la bin/ || echo "No bin directory found"
+        echo "Searching for APK files:"
+        find . -name "*.apk" -type f || echo "No APK files found"
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: better-lyrics-debug-apk
+        path: bin/*.apk
+        if-no-files-found: error
+        retention-days: 30
+
+    - name: Upload build logs
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: buildozer-logs
+        path: |
+          .buildozer/
+          *.log
+        if-no-files-found: ignore
+        retention-days: 7
