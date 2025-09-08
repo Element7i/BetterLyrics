@@ -1,0 +1,34 @@
+# Build artifacts and cache
+.buildozer/
+bin/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+/tmp/
+
+# Virtual environment
+venv/
+env/
+.env
+
+# Android specific
+*.apk
+*.aab
+local.properties
