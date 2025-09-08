@@ -1,0 +1,36 @@
+# Ignore virtual environment
+.venv/
+
+# Ignore build artifacts
+build/
+dist/
+installer_output/
+bin/
+
+# Ignore pyc files
+*.pyc
+__pycache__/
+
+# Ignore spec files
+*.spec
+
+# Ignore user-specific files
+.vscode/
+.idea/
+
+# Ignore buildozer files
+.buildozer/
+
+# Ignore log files
+*.log
+
+# Ignore installer scripts
+*.iss
+*.bat
+*.ps1
+
+# Ignore other temp files
+ReadMeBetterLyricNotesDEBUG.txt
+version_info.txt
+*.bak
+*.tmp

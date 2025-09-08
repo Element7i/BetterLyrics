@@ -1,0 +1,17 @@
+{
+  "name": "better-lyrics",
+  "version": "1.0.0",
+  "description": "A beautiful lyrics formatter desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["lyrics", "formatter", "desktop", "app"],
+  "author": "Your Name",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0"
+  }
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Better Lyrics</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #121212; 
+            color: white; 
+        }
+        .container { max-width: 600px; margin: 0 auto; }
+        .button { 
+            background: #1976d2; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            margin: 10px 5px; 
+        }
+        textarea { 
+            width: 100%; 
+            height: 300px; 
+            background: #333; 
+            color: white; 
+            border: 1px solid #555; 
+            padding: 10px; 
+            border-radius: 8px; 
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Better Lyrics</h1>
+            <p>Mobile Lyrics Formatter</p>
+        </div>
+        <textarea id="lyrics" placeholder="Paste your lyrics here..."></textarea>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="button" onclick="pasteLyrics()">📋 Paste</button>
+            <button class="button" onclick="formatLyrics()">✨ Format</button>
+            <button class="button" onclick="saveLyrics()">💾 Save</button>
+        </div>
+        <div id="output" style="margin-top: 30px; white-space: pre-wrap; line-height: 1.6;"></div>
+    </div>
+    
+    <script>
+        async function pasteLyrics() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('lyrics').value = text;
+                alert('📋 Lyrics pasted!');
+            } catch (err) {
+                alert('❌ Paste failed. Please paste manually.');
+            }
+        }
+        
+        function formatLyrics() {
+            const lyrics = document.getElementById('lyrics').value;
+            if (!lyrics.trim()) {
+                alert('⚠️ Please paste some lyrics first!');
+                return;
+            }
+            
+            const lines = lyrics.split('\n');
+            const formatted = lines.map(line => {
+                const trimmed = line.trim();
+                if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+                    return `\n  ${trimmed}\n`;
+                }
+                return trimmed;
+            }).join('\n');
+            
+            document.getElementById('output').textContent = formatted;
+            alert('✨ Lyrics formatted!');
+        }
+        
+        function saveLyrics() {
+            const formatted = document.getElementById('output').textContent;
+            if (!formatted) {
+                alert('⚠️ Please format lyrics first!');
+                return;
+            }
+            
+            const blob = new Blob([formatted], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'formatted-lyrics.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('💾 Lyrics saved!');
+        }
+        
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
