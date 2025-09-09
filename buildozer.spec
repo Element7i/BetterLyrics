@@ -22,10 +22,10 @@ version = 1.0
 requirements = python3,flet==0.28.3,pyperclip,certifi,charset-normalizer,idna,urllib3,websockets,watchdog,pathspec,packaging
 
 # (str) Presplash of the application
-presplash.filename = better_lyrics_space_icon.png
+presplash.filename = betterlyrics3.png
 
 # (str) Icon of the application
-icon.filename = better_lyrics_space_icon.png
+icon.filename = betterlyrics3.png
 
 # (str) Supported orientation (portrait or landscape or all)
 orientation = portrait
