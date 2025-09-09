@@ -20,13 +20,13 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,flet==0.28.3,pyperclip,json,uuid,datetime,threading,time,traceback,re,os
+requirements = python3,flet==0.28.3,pyperclip,certifi,charset-normalizer,idna,urllib3,websockets,watchdog,pathspec,packaging
 
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/presplash.png
+presplash.filename = betterlyrics3.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s/data/icon.png
+icon.filename = betterlyrics3.png
 
 # (str) Supported orientation (portrait or landscape or all)
 orientation = portrait
@@ -62,13 +62,13 @@ android.sdk = 33
 # p4a.hook =
 
 # (str) Bootstrap to use for android builds
-# p4a.bootstrap = sdl2
+p4a.bootstrap = webview
 
 # (int) port number to specify an explicit --port= p4a argument (eg for bootstrap flask)
 # p4a.port =
 
 # (list) Permissions
-android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
+android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE,WAKE_LOCK
 
 # (int) Target Android API, should be as high as possible.
 # android.api = 27
@@ -131,19 +131,8 @@ android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 # android.add_libs_x86 = libs/android-x86/*.so
 # android.add_libs_mips = libs/android-mips/*.so
 
-# (bool) Whether to add an Android signing step
-android.release_artifact = aab
-
-# (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
-# contains an 'androidx' package, or any package from Kotlin source.
-# android.enable_androidx requires android.api >= 28
-# android.enable_androidx = False
-
-# (bool) Copy library instead of making a libpymodules.so
-# android.copy_libs = 1
-
 # (str) The format used to package the app for release mode (aab or apk)
-# android.release_artifact = apk
+android.release_artifact = apk
 
 [buildozer]
 

@@ -1,2 +1,10 @@
 flet==0.28.3
 pyperclip
+certifi
+charset-normalizer
+idna
+urllib3
+websockets
+watchdog
+pathspec
+packaging
