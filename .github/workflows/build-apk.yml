@@ -27,6 +27,9 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
+    - name: List files for debugging
+      run: ls -la
+
     - name: Build with Buildozer
       run: |
         buildozer android debug
